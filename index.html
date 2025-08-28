@@ -1,1 +1,157 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Demo | Responsive Layout</title>
+    <style>
+        /*
+         * =============================================
+         * PHASE 1, STEP B: CSS STYLING
+         * =============================================
+        */
+
+        /* * -- TOKENS (CUSTOM PROPERTIES) --
+         * Defining design values in :root makes them globally available and easy to manage.
+         * This is the foundation for a maintainable and consistent design system.
+        */
+        :root {
+            --color-primary: #0d6efd;
+            --color-surface: #ffffff;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-shadow: rgba(0, 0, 0, 0.08);
+
+            --font-family-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+
+            --border-radius-md: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        /* -- BASE & MOBILE-FIRST STYLES -- */
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            margin: var(--spacing-lg);
+            line-height: 1.6;
+        }
+
+        .page-title {
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* * By default (on mobile), the container is a simple block element,
+         * which makes the cards stack vertically in a single column.
+        */
+        .card-container {
+            display: grid;
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin-inline: auto; /* A modern way to center block-level elements */
+        }
+        
+        /* * -- BEM NAMING: .card BLOCK --
+         * The .card is a self-contained component.
+         * Flexbox is used here to manage the internal layout of the card's content.
+        */
+        .card {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: 0 4px 6px var(--color-shadow);
+            
+            /* The transition for the hover effect */
+            transition: 
+                transform var(--transition-speed) ease, 
+                box-shadow var(--transition-speed) ease;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px var(--color-shadow);
+        }
+
+        .card__title {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+
+        /* * -- RESPONSIVE BREAKPOINT --
+         * This media query applies styles only on screens 768px or wider.
+         * Here, we switch the card container to a responsive multi-column grid.
+        */
+        @media (min-width: 768px) {
+            .card-container {
+                /*
+                 * CSS Grid is used for the main page layout.
+                 * 'auto-fit' and 'minmax' create a grid that automatically adjusts
+                 * the number of columns based on available width.
+                */
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        
+        /* * -- ACCESSIBILITY: REDUCED MOTION --
+         * If a user has enabled "reduce motion" in their OS, this query
+         * disables the transitions to respect their preference.
+        */
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                transition: none;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!--
+     * =============================================
+     * PHASE 1, STEP A: HTML STRUCTURE
+     * =============================================
+     * Using semantic HTML (<main>, <article>) and BEM-style classes
+     * for a clear, maintainable structure.
+    -->
+    <main>
+        <h1 class="page-title">Modern CSS Showcase</h1>
+        
+        <div class="card-container">
+            
+            <article class="card">
+                <h2 class="card__title">CSS Grid Layout</h2>
+                <p class="card__text">The main layout uses CSS Grid, creating a responsive container that adapts its column count to the screen width automatically on larger screens.</p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">Flexbox Components</h2>
+                <p class="card__text">Within each card, Flexbox is used to align content. It's perfect for managing the layout of smaller, self-contained components like this one.</p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">Maintainable Tokens</h2>
+                <p class="card__text">Colors, spacing, and fonts are stored in CSS Custom Properties (tokens). This makes the styling consistent, reusable, and easy to update.</p>
+            </article>
+            
+            <article class="card">
+                <h2 class="card__title">Accessible Motion</h2>
+                <p class="card__text">A 'prefers-reduced-motion' media query disables animations for users who are sensitive to motion, creating a more inclusive experience.</p>
+            </article>
+
+        </div>
+    </main>
+
+</body>
+</html>
